@@ -1,0 +1,71 @@
+﻿<UserControl
+    x:Class="Panacea.Modules.StreamingVideo.Views.VideoList"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:controls="clr-namespace:Panacea.ContentControls;assembly=Panacea.ContentControls"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:favorites="clr-namespace:Panacea.Modularity.Favorites;assembly=Panacea.Modularity.Favorites"
+    xmlns:local="clr-namespace:Panacea.Modules.StreamingVideo.Views"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:multilinguality="clr-namespace:Panacea.Multilinguality;assembly=Panacea.Multilinguality"
+    xmlns:pcontrols="clr-namespace:Panacea.Controls;assembly=Panacea.Controls"
+    d:DesignHeight="450"
+    d:DesignWidth="800"
+    Background="#f1f1f1"
+    mc:Ignorable="d">
+
+    <UserControl.Resources>
+        <favorites:BoolToFavoriteConverter x:Key="bcc" />
+    </UserControl.Resources>
+    <Grid>
+        <Image Source="pack://application:,,,/Panacea.Modules.StreamingVideo;component/Images/back.jpg" Stretch="UniformToFill" />
+        <controls:LazyLoadingTabControl
+            Name="Container"
+            Columns="4"
+            IsSearchable="True"
+            ItemProvider="{Binding Provider}"
+            MaterialIcon="movie_filter"
+            OpenItemCommand="{Binding OpenItemCommand}"
+            Ratio="1">
+            <controls:LazyLoadingTabControl.ThumbnailExtraTemplate>
+                <DataTemplate>
+                    <Grid Margin="0,5,0,0" VerticalAlignment="Stretch">
+                        <Grid.RowDefinitions>
+                            <RowDefinition />
+                            <RowDefinition Height="Auto" />
+                        </Grid.RowDefinitions>
+                        <TextBlock
+                            VerticalAlignment="Top"
+                            FontSize="{DynamicResource FontSize-Xx-Small}"
+                            Foreground="#ff888888"
+                            Text="{Binding Description}"
+                            TextWrapping="Wrap" />
+                        <Grid
+                            Grid.Row="1"
+                            Margin="0,0,0,0"
+                            HorizontalAlignment="Stretch"
+                            VerticalAlignment="Bottom">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition />
+                                <ColumnDefinition Width="Auto" />
+                            </Grid.ColumnDefinitions>
+                            <Button
+                                Grid.Column="1"
+                                pcontrols:Material.AsyncCommand="{Binding RelativeSource={RelativeSource AncestorType=local:VideoList}, Path=DataContext.FavoriteCommand}"
+                                pcontrols:Material.Icon="favorite"
+                                CommandParameter="{Binding}"
+                                Style="{DynamicResource PrimaryButton}">
+                                <Button.Background>
+                                    <MultiBinding Converter="{StaticResource bcc}">
+                                        <Binding Path="DataContext.IsFavoriteCommand" RelativeSource="{RelativeSource AncestorType=local:VideoList}" />
+                                        <Binding />
+                                    </MultiBinding>
+                                </Button.Background>
+                            </Button>
+                        </Grid>
+                    </Grid>
+                </DataTemplate>
+            </controls:LazyLoadingTabControl.ThumbnailExtraTemplate>
+        </controls:LazyLoadingTabControl>
+    </Grid>
+</UserControl>
