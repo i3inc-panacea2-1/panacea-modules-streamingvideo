@@ -21,6 +21,8 @@
         <Image Source="pack://application:,,,/Panacea.Modules.StreamingVideo;component/Images/back.jpg" Stretch="UniformToFill" />
         <controls:LazyLoadingTabControl
             Name="Container"
+            Title="{multilinguality:Translate 'Streaming',
+                                              'StreamingVideo'}"
             Columns="4"
             IsSearchable="True"
             ItemProvider="{Binding Provider}"
